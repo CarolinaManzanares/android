@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:id="@+id/magView"
+        android:hint="@string/mag"
+        android:textAlignment="center"
+        android:gravity="center_vertical|center_horizontal" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/placeView"
+            android:hint="@string/place"
+            android:textSize="@dimen/abc_text_size_headline_material"
+            android:layout_weight="3"
+            android:gravity="center_vertical|center_horizontal"
+            android:textIsSelectable="false" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/timeView"
+            android:hint="@string/time"
+            android:textSize="@dimen/abc_text_size_small_material"
+            android:layout_weight="1"
+            android:gravity="center_vertical|center_horizontal" />
+    </LinearLayout>
+</LinearLayout>
