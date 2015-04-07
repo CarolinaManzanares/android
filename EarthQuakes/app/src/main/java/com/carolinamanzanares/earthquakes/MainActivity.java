@@ -1,12 +1,16 @@
 package com.carolinamanzanares.earthquakes;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.carolinamanzanares.earthquakes.Managers.EarthquakeAlarmManager;
 import com.carolinamanzanares.earthquakes.Services.DownloadEarthquakesService;
 import com.carolinamanzanares.earthquakes.task.DownloadEarthquakesTask;
 
@@ -14,8 +18,7 @@ import com.carolinamanzanares.earthquakes.task.DownloadEarthquakesTask;
 public class MainActivity extends ActionBarActivity implements DownloadEarthquakesTask.AddEarthQuakeInterface{
 
     private static final int PREFS_ACTIVITY = 1;
-    private static final String AUTOREFRESH = "AUTOREFRESH";
-    private static final String FRECUENCY = "FRECUENCY";
+    private static final String EARTHQUAKES_PREFS = "EARTHQUAKES_PREFS";
 
 
     @Override
@@ -23,16 +26,33 @@ public class MainActivity extends ActionBarActivity implements DownloadEarthquak
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        downloadEarthQuakes();
+        //downloadEarthQuakes(); //cuando usamos task y service
+        checkToSetAlarm();  //cuando usamos alarmas
+    }
+
+    private void checkToSetAlarm() {
+
+        String KEY = "LAUNCHED_BEFORE";
+
+        SharedPreferences prefs = getSharedPreferences(EARTHQUAKES_PREFS, Activity.MODE_PRIVATE);
+        if(!prefs.getBoolean(KEY, false)){
+            //es la primera vez. Entonces: cambiar alarma..
+            long interval = getResources().getInteger(R.integer.default_interval) * 60 * 1000;
+            EarthquakeAlarmManager.setAlarm(this, interval);
+
+            //..y establecer el flag
+            prefs.edit().putBoolean(KEY, true).apply();
+        }
+        Log.d("EARTHQUAKES", KEY);
+
     }
 
     private void downloadEarthQuakes() {
 //        DownloadEarthquakesTask task = new DownloadEarthquakesTask(this, this);
 //        task.execute(getString(R.string.earthquakes_url));
 
-        Intent download = new Intent(this, DownloadEarthquakesService.class);
-        startService(download);
-
+//        Intent download = new Intent(this, DownloadEarthquakesService.class);
+//        startService(download);
 
 
 
