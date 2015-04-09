@@ -3,17 +3,18 @@ package com.carolinamanzanares.geolocation;
 import android.content.Context;
 import android.location.Criteria;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.carolinamanzanares.geolocation.Listeners.LocationListener;
 
-public class MainActivity extends ActionBarActivity implements com.carolinamanzanares.geolocation.Listeners.LocationListener.AddLocationInterface{
+
+public class MainActivity extends ActionBarActivity implements com.carolinamanzanares.geolocation.Listeners.LocationListener.AddLocationInterface {
 
     private TextView lblLatitude;
     private TextView lblLongitude;
@@ -29,72 +30,42 @@ public class MainActivity extends ActionBarActivity implements com.carolinamanza
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        locationManager = (LocationManager)getSystemService (Context.LOCATION_SERVICE);
+
         lblLatitude = (TextView) findViewById(R.id.lblLatitude);
-        lblLongitude = (TextView) findViewById(R.id.lblLongitude);
+        lblLongitude= (TextView) findViewById(R.id.lblLongitude);
         lblAltitude = (TextView) findViewById(R.id.lblAltitude);
         lblSpeed = (TextView) findViewById(R.id.lblVelocidad);
 
         getLocationProvider();
-
-        ListenLocationChanges();
-
+        listenLocationChanges();
     }
 
-    private void ListenLocationChanges() {
-
-        int t = 5000;
-        int distance = 5;
+    private void listenLocationChanges() {
+        int t = 5000;	// milliseconds
+        int distance = 5; // meters
 
         LocationListener listener = new LocationListener(this);
 
         locationManager.requestLocationUpdates(provider, t, distance, listener);
-
-
     }
 
     private void getLocationProvider() {
-
-        locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-
         Criteria criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+        criteria.setAccuracy(Criteria.ACCURACY_COARSE);
         criteria.setSpeedRequired(true);
         criteria.setAltitudeRequired(true);
 
         provider = locationManager.getBestProvider(criteria, true);
-
-        Log.d("GEOLOCATION", provider);
-
+        Log.d("GEOLOCATION", "Provider: " + provider);
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public void addLocation(Location location) {
-        lblLatitude.setText((String.valueOf(location.getLatitude())));
-        lblLongitude.setText((String.valueOf(location.getLongitude())));
-        lblAltitude.setText((String.valueOf(location.getAltitude())));
-        lblSpeed.setText((String.valueOf(location.getSpeed())));
+        lblLatitude.setText(String.valueOf(location.getLatitude()));
+        lblLongitude.setText(String.valueOf(location.getLongitude()));
+        lblAltitude.setText(String.valueOf(location.getAltitude()));
+        lblSpeed.setText(String.valueOf(location.getSpeed()));
     }
 }

@@ -98,7 +98,7 @@ public class DownloadEarthquakesService extends Service {
     private void processEarthQuakeTask(JSONObject jsonObj) {
         try {
             JSONArray jsonCoords = jsonObj.getJSONObject("geometry").getJSONArray("coordinates");
-            Coordinate coords = new Coordinate(jsonCoords.getDouble(0), jsonCoords.getDouble(1), jsonCoords.getDouble(2));
+            Coordinate coords = new Coordinate(jsonCoords.getDouble(1), jsonCoords.getDouble(0), jsonCoords.getDouble(2));
 
             JSONObject properties = jsonObj.getJSONObject("properties");
 

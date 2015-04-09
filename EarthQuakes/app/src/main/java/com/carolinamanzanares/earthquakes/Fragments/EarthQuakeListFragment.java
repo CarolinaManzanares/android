@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.carolinamanzanares.earthquakes.DetailActivity;
+import com.carolinamanzanares.earthquakes.MapsActivity;
 import com.carolinamanzanares.earthquakes.Model.EarthQuakes;
 import com.carolinamanzanares.earthquakes.R;
 
@@ -80,7 +81,8 @@ public class EarthQuakeListFragment extends ListFragment{
         Log.d("EARTHQUAKE", "en onListItemClick");
 
         EarthQuakes earthquake = earthQuakes.get(position);
-        Intent detailIntent = new Intent(getActivity(), DetailActivity.class);
+        //Intent detailIntent = new Intent(getActivity(), DetailActivity.class);
+        Intent detailIntent = new Intent(getActivity(), MapsActivity.class);
 
         detailIntent.putExtra(EARTHQUAKE_ITEM, earthquake.getId());
         startActivity(detailIntent);

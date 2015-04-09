@@ -5,7 +5,7 @@ android {
     buildToolsVersion "21.1.2"
 
     defaultConfig {
-        applicationId "com.carolinamanzanares.geolocation"
+        applicationId "com.carolinamanzanares.geolocation2"
         minSdkVersion 17
         targetSdkVersion 21
         versionCode 1
