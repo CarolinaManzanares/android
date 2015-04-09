@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.carolinamanzanares.earthquakes.Fragments.EarthQuakeListFragment;
+import com.carolinamanzanares.earthquakes.Fragments.EarthquakeMapFragment;
 import com.carolinamanzanares.earthquakes.Model.EarthQuakes;
 import com.carolinamanzanares.earthquakes.database.EarthQuakeDB;
 
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 public class DetailActivity extends ActionBarActivity {
     private static final int PREFS_ACTIVITY = 1;
 
+    private EarthquakeMapFragment mapFragment;
     private EarthQuakeDB earthQuakeDB;
     private ArrayList<EarthQuakes> earthQuakes;
     private EarthQuakes earthQuake;
@@ -32,9 +34,12 @@ public class DetailActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.datail_earthquake);
 
-        placeView = (TextView) findViewById(R.id.placeView);
-        magView = (TextView) findViewById(R.id.magView);
-        timeView = (TextView) findViewById(R.id.timeView);
+        mapFragment = (EarthquakeMapFragment)getFragmentManager().findFragmentById(R.id.map_fragment);
+
+
+//        placeView = (TextView) findViewById(R.id.placeView);
+//        magView = (TextView) findViewById(R.id.magView);
+//        timeView = (TextView) findViewById(R.id.timeView);
 
 //        Intent detailIntent = getIntent();
 //        id = detailIntent.getStringExtra(EarthQuakeListFragment.EARTHQUAKE_ITEM);
