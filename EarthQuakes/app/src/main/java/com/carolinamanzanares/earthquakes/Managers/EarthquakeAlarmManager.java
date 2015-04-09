@@ -17,10 +17,10 @@ public class EarthquakeAlarmManager {
         //Get a	reference to the Alarm Manager
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
-        //Set	the	alarm	to	wake	the	device	if	sleeping.
+        //Set the alarm	type.
         int alarmType = AlarmManager.RTC;
 
-        //Create	a	Pending	Intent	that	will	broadcast	and	action
+        //Create a Pending Intent that will	broadcast and action
         Intent intentToFire = new Intent(context, DownloadEarthquakesService.class);
         PendingIntent alarmIntent = PendingIntent.getService(context, 0, intentToFire, 0);
 
