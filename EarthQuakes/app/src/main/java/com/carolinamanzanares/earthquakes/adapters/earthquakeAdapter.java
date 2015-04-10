@@ -1,6 +1,7 @@
 package com.carolinamanzanares.earthquakes.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,6 +59,9 @@ public class earthquakeAdapter extends ArrayAdapter<EarthQuakes> {
         placeView.setText(item.getPlace());
         timeView.setText(sdt.format(item.getTime()));
 
+        int n = (int)(item.getMagnitude() * 10);
+        int color = Color.rgb((255 * n) / 100, (255 * (100 - n)) / 100 , 0);
+        magView.setBackgroundColor(color);
 
 
         //return super.getView(position, convertView, parent);

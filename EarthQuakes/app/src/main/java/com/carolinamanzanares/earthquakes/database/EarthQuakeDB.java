@@ -145,7 +145,7 @@ public class EarthQuakeDB {
             earthQuake.setId(cursor.getString(indexes.get(KEY_ID)));
             earthQuake.setPlace(cursor.getString(indexes.get(KEY_PLACE)));
             earthQuake.setMagnitude(cursor.getDouble(indexes.get(KEY_MAGNITUDE)));
-            earthQuake.setCoords(new Coordinate(cursor.getDouble(indexes.get(KEY_LONGITUDE)), cursor.getDouble(indexes.get(KEY_LATITUDE)), cursor.getDouble(indexes.get(KEY_DEPTH))));
+            earthQuake.setCoords(new Coordinate(cursor.getDouble(indexes.get(KEY_LATITUDE)), cursor.getDouble(indexes.get(KEY_LONGITUDE)), cursor.getDouble(indexes.get(KEY_DEPTH))));
             earthQuake.setURL(cursor.getString(indexes.get(KEY_URL)));
             earthQuake.setTime(cursor.getLong(indexes.get(KEY_TIME)));
 

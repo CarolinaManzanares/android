@@ -15,6 +15,7 @@ import com.carolinamanzanares.earthquakes.database.EarthQuakeDB;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class DetailActivity extends ActionBarActivity {
@@ -61,16 +62,23 @@ public class DetailActivity extends ActionBarActivity {
         super.onResume();
 
         Intent detailIntent = getIntent();
-        //int id = detailIntent.getIntExtra(EarthQuakeListFragment.EARTHQUAKE_ITEM, 0);
         String id = detailIntent.getStringExtra(EarthQuakeListFragment.EARTHQUAKE_ITEM);
-        Log.d("EARTHQUAKE", "Id: " + id);
 
         earthQuake = new EarthQuakes();
         earthQuake = earthQuakeDB.getAllById(id);
 
-        populateView();
+        //populateView();
+        showMap();
 
 
+    }
+
+    private void showMap() {
+
+        List<EarthQuakes> earthQuakes = new ArrayList<>();
+        earthQuakes.add(earthQuake);
+
+        mapFragment.setEarthQuake(earthQuakes);
     }
 
     private void populateView() {

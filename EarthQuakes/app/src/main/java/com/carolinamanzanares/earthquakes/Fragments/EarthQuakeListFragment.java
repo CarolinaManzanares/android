@@ -78,11 +78,10 @@ public class EarthQuakeListFragment extends ListFragment{
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-        Log.d("EARTHQUAKE", "en onListItemClick");
 
         EarthQuakes earthquake = earthQuakes.get(position);
-        //Intent detailIntent = new Intent(getActivity(), DetailActivity.class);
-        Intent detailIntent = new Intent(getActivity(), MapsActivity.class);
+        Intent detailIntent = new Intent(getActivity(), DetailActivity.class);
+        //Intent detailIntent = new Intent(getActivity(), MapsActivity.class);
 
         detailIntent.putExtra(EARTHQUAKE_ITEM, earthquake.getId());
         startActivity(detailIntent);

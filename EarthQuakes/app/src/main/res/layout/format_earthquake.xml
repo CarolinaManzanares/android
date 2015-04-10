@@ -9,7 +9,9 @@
         android:id="@+id/magView"
         android:hint="@string/mag"
         android:textAlignment="center"
-        android:gravity="center_vertical|center_horizontal" />
+        android:gravity="center_vertical|center_horizontal"
+        android:textSize="@dimen/abc_text_size_large_material"
+        android:padding="@dimen/abc_text_size_small_material" />
 
     <LinearLayout
         android:orientation="vertical"

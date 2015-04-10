@@ -112,6 +112,7 @@ public class DownloadEarthquakesService extends Service {
 
             //insert in DB
             earthQuakeDB.insert(earthquakes);
+            Log.d("EARTHQUAKES", "Insert DONE");
 
 
 

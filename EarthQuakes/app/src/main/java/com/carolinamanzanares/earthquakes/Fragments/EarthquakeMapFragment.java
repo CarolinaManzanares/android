@@ -31,6 +31,7 @@ public class EarthquakeMapFragment extends MapFragment implements GoogleMap.OnMa
 
     private GoogleMap map;
     private List<EarthQuakes> earthQuakes;
+    private EarthQuakes earthQuake;
 
 
     public EarthquakeMapFragment() {
@@ -42,10 +43,12 @@ public class EarthquakeMapFragment extends MapFragment implements GoogleMap.OnMa
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        View layout = super.onCreateView(inflater, container, savedInstanceState);
+
         map = getMap();
         map.setOnMapLoadedCallback(this);
 
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return layout;
     }
 
     public void setEarthQuake(List<EarthQuakes> earthQuakes){
@@ -56,26 +59,59 @@ public class EarthquakeMapFragment extends MapFragment implements GoogleMap.OnMa
 
     @Override
     public void onMapLoaded() {
+        LatLng position;
+        String title;
+        String snippet;
+        CameraUpdate camUpd;
 
-        EarthQuakes earthquake;
-
-        LatLngBounds.Builder builder = new LatLngBounds.Builder();
-
-        for (int i = 0; i < earthQuakes.size(); i++){
-            earthquake = earthQuakes.get(i);
-            LatLng position = new LatLng(earthquake.getCoords().getLatitude(), earthquake.getCoords().getLongitude());
-            String title = earthquake.getPlace();
-            String snippet = position.toString();
+        if (earthQuakes.size() == 1){
+            earthQuake = earthQuakes.get(0);
+            position = new LatLng(earthQuake.getCoords().getLatitude(), earthQuake.getCoords().getLongitude());
+            title = earthQuake.getPlace();
+            snippet = "Mag: " + String.valueOf(earthQuake.getMagnitude()) + ". " + position.toString();
 
             map.addMarker(new MarkerOptions().position(position).title(title).snippet(snippet));
-            builder.include(position);
+
+            CameraPosition camPos =	new	CameraPosition.Builder().target(position)
+                    .zoom(4)
+                    .bearing(0)
+                    .tilt(90)
+                    .build();
+
+            map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                @Override
+                public void onInfoWindowClick(Marker marker) {
+                    String url = earthQuake.getURL();
+                    Intent urlIntent = new Intent(Intent.ACTION_VIEW);
+                    urlIntent.setData(Uri.parse(url));
+                    startActivity(urlIntent);
+                }
+            });
+
+            camUpd	= CameraUpdateFactory.newCameraPosition(camPos);
+
+            map.animateCamera(camUpd);
+        }
+        else {
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+
+            for (int i = 0; i < earthQuakes.size(); i++){
+                earthQuake = earthQuakes.get(i);
+                position = new LatLng(earthQuake.getCoords().getLatitude(), earthQuake.getCoords().getLongitude());
+                title = earthQuake.getPlace();
+                snippet = position.toString();
+
+                map.addMarker(new MarkerOptions().position(position).title(title).snippet(snippet));
+                builder.include(position);
+            }
+
+            LatLngBounds bounds = builder.build();
+            camUpd = CameraUpdateFactory.newLatLngBounds(bounds, 0);
+
+
         }
 
-        LatLngBounds bounds = builder.build();
-        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 0);
-        //map.moveCamera(cu);
-
-        map.animateCamera(cu);
+        map.animateCamera(camUpd);
 
 
 
