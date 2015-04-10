@@ -1,6 +1,8 @@
 package com.carolinamanzanares.earthquakes;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
@@ -10,12 +12,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.carolinamanzanares.earthquakes.Fragments.EarthQuakeListFragment;
+import com.carolinamanzanares.earthquakes.Fragments.EarthquakeMapFragment;
+import com.carolinamanzanares.earthquakes.Listeners.TabListener;
 import com.carolinamanzanares.earthquakes.Managers.EarthquakeAlarmManager;
 import com.carolinamanzanares.earthquakes.Services.DownloadEarthquakesService;
 import com.carolinamanzanares.earthquakes.task.DownloadEarthquakesTask;
 
 
-public class MainActivity extends ActionBarActivity implements DownloadEarthquakesTask.AddEarthQuakeInterface{
+public class MainActivity extends Activity implements DownloadEarthquakesTask.AddEarthQuakeInterface{
 
     private static final int PREFS_ACTIVITY = 1;
     private static final String EARTHQUAKES_PREFS = "EARTHQUAKES_PREFS";
@@ -25,6 +30,24 @@ public class MainActivity extends ActionBarActivity implements DownloadEarthquak
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Tabs
+        ActionBar actionBar = getActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+        ActionBar.Tab tab = actionBar.newTab()
+                .setText(R.string.List)
+                .setTabListener((ActionBar.TabListener) new TabListener<EarthQuakeListFragment>(
+                        this, R.id.main_frame, EarthQuakeListFragment.class));
+        actionBar.addTab(tab);
+
+        tab = actionBar.newTab()
+                .setText(R.string.Map)
+                .setTabListener((ActionBar.TabListener) new TabListener<EarthquakeMapFragment>(
+                        this, R.id.main_frame, EarthquakeMapFragment.class));
+        actionBar.addTab(tab);
+
+
 
         //downloadEarthQuakes(); //cuando usamos task y service
         checkToSetAlarm();  //cuando usamos alarmas
