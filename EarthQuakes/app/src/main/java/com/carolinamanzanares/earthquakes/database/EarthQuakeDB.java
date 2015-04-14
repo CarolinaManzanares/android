@@ -53,7 +53,7 @@ public class EarthQuakeDB {
         //Aunque DATABASE_NAME es private de otra clase al estar dentro de MI clase puedo "verla"
         this.helper = new EarthQuakeOpenHelper(context, EarthQuakeOpenHelper.DATABASE_NAME, null, EarthQuakeOpenHelper.DATABASE_VERSION);
         this.db = helper.getWritableDatabase();
-        Log.d("EARTHQUAKE", "DB writable");
+        //Log.d("EARTHQUAKE", "DB writable");
     }
 
     public void insert(EarthQuakes earthquake) {
@@ -75,7 +75,7 @@ public class EarthQuakeDB {
         try {
             db.insertOrThrow(EarthQuakeOpenHelper.DATABASE_TABLE, null, newValues);
         }catch (SQLException e) {
-            Log.d("EARTHQUAKE", "Insert error: " + e.getMessage());
+            //Log.d("EARTHQUAKE", "Insert error: " + e.getMessage());
         }
 
     }
@@ -104,13 +104,10 @@ public class EarthQuakeDB {
         EarthQuakes earthquake;
         earthquake = new EarthQuakes();
         if(earthQuakes.size() == 0){
-            Log.d("EARTHQUAKE", "earthquake is null");
             earthquake = null;
         }
         else{
             earthquake = earthQuakes.get(0);
-            Log.d("EARTHQUAKE", "earthquake is not null: " + earthquake.getPlace());
-
         }
 
         //return earthQuakes.size() : earthQuakes.get(0) ? null;

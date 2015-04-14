@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.PersistableBundle;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,6 +25,8 @@ public class MainActivity extends Activity implements DownloadEarthquakesTask.Ad
 
     private static final int PREFS_ACTIVITY = 1;
     private static final String EARTHQUAKES_PREFS = "EARTHQUAKES_PREFS";
+    private static final String SELECTED_TAB = "SELECTED_TAB";
+    private ActionBar actionBar;
 
 
     @Override
@@ -32,25 +35,36 @@ public class MainActivity extends Activity implements DownloadEarthquakesTask.Ad
         setContentView(R.layout.activity_main);
 
         //Tabs
-        ActionBar actionBar = getActionBar();
+        actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-        ActionBar.Tab tab = actionBar.newTab()
+        ActionBar.Tab listTab = actionBar.newTab()
                 .setText(R.string.List)
-                .setTabListener((ActionBar.TabListener) new TabListener<EarthQuakeListFragment>(
+                .setTabListener(new TabListener<EarthQuakeListFragment>(
                         this, R.id.main_frame, EarthQuakeListFragment.class));
-        actionBar.addTab(tab);
+        actionBar.addTab(listTab);
 
-        tab = actionBar.newTab()
+        ActionBar.Tab mapTab = actionBar.newTab()
                 .setText(R.string.Map)
-                .setTabListener((ActionBar.TabListener) new TabListener<EarthquakeMapFragment>(
+                .setTabListener(new TabListener<EarthquakeMapFragment>(
                         this, R.id.main_frame, EarthquakeMapFragment.class));
-        actionBar.addTab(tab);
+        actionBar.addTab(mapTab);
 
+        checkToSetAlarm();
+    }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
 
-        //downloadEarthQuakes(); //cuando usamos task y service
-        checkToSetAlarm();  //cuando usamos alarmas
+        outState.putInt(SELECTED_TAB, actionBar.getSelectedNavigationIndex());
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        actionBar.setSelectedNavigationItem(savedInstanceState.getInt(SELECTED_TAB));
     }
 
     private void checkToSetAlarm() {
@@ -66,21 +80,8 @@ public class MainActivity extends Activity implements DownloadEarthquakesTask.Ad
             //..y establecer el flag
             prefs.edit().putBoolean(KEY, true).apply();
         }
-        Log.d("EARTHQUAKES", KEY);
 
     }
-
-    private void downloadEarthQuakes() {
-//        DownloadEarthquakesTask task = new DownloadEarthquakesTask(this, this);
-//        task.execute(getString(R.string.earthquakes_url));
-
-//        Intent download = new Intent(this, DownloadEarthquakesService.class);
-//        startService(download);
-
-
-
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

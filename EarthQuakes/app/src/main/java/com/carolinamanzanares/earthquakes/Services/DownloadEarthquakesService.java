@@ -1,10 +1,16 @@
 package com.carolinamanzanares.earthquakes.Services;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.carolinamanzanares.earthquakes.MainActivity;
 import com.carolinamanzanares.earthquakes.Model.Coordinate;
 import com.carolinamanzanares.earthquakes.Model.EarthQuakes;
 import com.carolinamanzanares.earthquakes.R;
@@ -38,6 +44,8 @@ public class DownloadEarthquakesService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
 
+        Log.d("EARTHQUAKES", "Received start id " + startId + ": " + intent);
+
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -45,8 +53,6 @@ public class DownloadEarthquakesService extends Service {
             }
         });
         t.start();
-
-
 
         return Service.START_STICKY;
     }
@@ -56,8 +62,7 @@ public class DownloadEarthquakesService extends Service {
         JSONObject json;
         JSONArray earthquakes = null;
 
-        //String earthquakesFeed = getString(R.string.earthquakes_url);
-
+        int count = 0;
 
         try {
             URL url = new URL(earthquakesFeed);
@@ -80,7 +85,12 @@ public class DownloadEarthquakesService extends Service {
 
                 for (int i = earthquakes.length()-1; i >= 0; i--) {
                     processEarthQuakeTask(earthquakes.getJSONObject(i));
+                    count++;
                 }
+
+                sendNotifications(count);
+
+
             }
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -93,6 +103,33 @@ public class DownloadEarthquakesService extends Service {
         }
 
         return earthquakes.length();
+    }
+
+    private void sendNotifications(int count) {
+
+        Intent intentToFire = new Intent(this, MainActivity.class);
+        PendingIntent notificationIntent = PendingIntent.getActivity(this, 0, intentToFire, 0);
+
+        Notification.Builder builder = new Notification.Builder(DownloadEarthquakesService.this);
+
+        builder.setSmallIcon(R.drawable.ic_launcher)
+            .setContentTitle(getString(R.string.app_name))
+            //.setContentText(getString(R.string.count_earthquakes, count))
+            .setWhen(System.currentTimeMillis())
+            .setDefaults(Notification.DEFAULT_SOUND)
+            .setSound(
+                    RingtoneManager.getDefaultUri(
+                            RingtoneManager.TYPE_NOTIFICATION))
+            .setAutoCancel(true)
+            .setContentIntent(notificationIntent);
+
+            Notification notification = builder.build();
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        int NOTIFICATION_REF = 1;
+        notificationManager.notify(NOTIFICATION_REF, notification);
+
     }
 
     private void processEarthQuakeTask(JSONObject jsonObj) {
@@ -112,11 +149,6 @@ public class DownloadEarthquakesService extends Service {
 
             //insert in DB
             earthQuakeDB.insert(earthquakes);
-            Log.d("EARTHQUAKES", "Insert DONE");
-
-
-
-
 
         } catch (JSONException e) {
             e.printStackTrace();

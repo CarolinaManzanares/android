@@ -18,6 +18,7 @@
     </string-array>
 
     <string-array name="update_mag_values">
+        <item>All</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>

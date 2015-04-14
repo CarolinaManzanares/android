@@ -1,7 +1,7 @@
 package com.carolinamanzanares.earthquakes;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class DetailActivity extends ActionBarActivity {
+public class DetailActivity extends Activity {
     private static final int PREFS_ACTIVITY = 1;
 
     private EarthquakeMapFragment mapFragment;
@@ -35,7 +35,7 @@ public class DetailActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.datail_earthquake);
 
-        mapFragment = (EarthquakeMapFragment)getFragmentManager().findFragmentById(R.id.map_fragment);
+        //mapFragment = (EarthquakeMapFragment)getFragmentManager().findFragmentById(R.id.map_fragment);
 
 
 //        placeView = (TextView) findViewById(R.id.placeView);
@@ -46,7 +46,7 @@ public class DetailActivity extends ActionBarActivity {
 //        id = detailIntent.getStringExtra(EarthQuakeListFragment.EARTHQUAKE_ITEM);
 
         // Acceder a la BD
-        earthQuakeDB = new EarthQuakeDB(this);
+        //earthQuakeDB = new EarthQuakeDB(this);
 
 
         //populateView();
@@ -61,14 +61,14 @@ public class DetailActivity extends ActionBarActivity {
     protected void onResume() {
         super.onResume();
 
-        Intent detailIntent = getIntent();
-        String id = detailIntent.getStringExtra(EarthQuakeListFragment.EARTHQUAKE_ITEM);
-
-        earthQuake = new EarthQuakes();
-        earthQuake = earthQuakeDB.getAllById(id);
+//        Intent detailIntent = getIntent();
+//        String id = detailIntent.getStringExtra(EarthQuakeListFragment.EARTHQUAKE_ITEM);
+//
+//        earthQuake = new EarthQuakes();
+//        earthQuake = earthQuakeDB.getAllById(id);
 
         //populateView();
-        showMap();
+        //showMap();
 
 
     }
@@ -78,7 +78,7 @@ public class DetailActivity extends ActionBarActivity {
         List<EarthQuakes> earthQuakes = new ArrayList<>();
         earthQuakes.add(earthQuake);
 
-        mapFragment.setEarthQuake(earthQuakes);
+
     }
 
     private void populateView() {

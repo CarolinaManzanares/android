@@ -28,24 +28,27 @@ public class TabListener<T extends Fragment> implements ActionBar.TabListener {
 
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-        Log.d("EARTHQUAKES", "OnTabSelected");
+
         if	(fragment == null) {
 
             String fragmentName	= fragmentClass.getName();
             fragment = Fragment.instantiate(activity, fragmentName);
-            ft.add(fragmentContainer,	fragment,	fragmentName);
+            ft.replace(fragmentContainer,	fragment,	fragmentName);
         } else {
             ft.attach(fragment);
         }
     }
 
     @Override
-    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-        Log.d("EARTHQUAKES", "onTabUnselected");
+    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
+
+        ft.detach(fragment);
     }
 
     @Override
-    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-        Log.d("EARTHQUAKES", "onTabReselected");
+    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
+
+        ft.attach(fragment);
+
     }
 }

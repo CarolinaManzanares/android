@@ -24,8 +24,6 @@ public class EarthquakeAlarmManager {
         Intent intentToFire = new Intent(context, DownloadEarthquakesService.class);
         PendingIntent alarmIntent = PendingIntent.getService(context, 0, intentToFire, 0);
 
-        //Wake	up	the	device	to	fire	an	alarm	in	half	an	hour,	and	every half-hour	after	that.
-
         alarmManager.setRepeating(alarmType, interval, interval, alarmIntent);
     }
 
