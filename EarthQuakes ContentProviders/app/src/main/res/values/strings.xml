@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">EarthQuakes</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="earthquakes_url">http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson</string>
+    <string name="mag">mag</string>
+    <string name="place">place</string>
+    <string name="time">time</string>
+    <string name="title_activity_detail_activity">Back</string>
+    <string name="num_earthquake">%d earthquakes processed</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="earthquakes_filter">Filter</string>
+    <string name="earthquakes_refresh">refresh</string>
+    <string name="AUTOREFRESH">AUTOREFRESH</string>
+    <string name="FRECUENCY">FRECUENCY</string>
+    <string name="Autorefresh_title">Autorefresh</string>
+    <string name="MAGNITUDE">MAGNITUDE</string>
+    <string name="List">List</string>
+    <string name="Map">Map</string>
+    <string name="refresh">Refresh</string>
+
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="Frecuency_title">Frecuency</string>
+    <string name="Magnitude_title">Magnitude</string>
+    <string name="default_autorefresh">true</string>
+</resources>
